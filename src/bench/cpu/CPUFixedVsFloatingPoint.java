@@ -4,7 +4,7 @@ import bench.IBenchmark;
 
 public class CPUFixedVsFloatingPoint implements IBenchmark {
 
-	private int result;
+	private int result=0;
 	private int size;
 
 	@Override
@@ -15,8 +15,8 @@ public class CPUFixedVsFloatingPoint implements IBenchmark {
 	@Override
 	public void warmUp() {
 		for (int i = 0; i < size; ++i) {
-			result = ; // fixed
-			result = ; // floating
+			result = i/256; // fixed
+			// floating
 		}
 	}
 
@@ -32,18 +32,27 @@ public class CPUFixedVsFloatingPoint implements IBenchmark {
 		switch ((NumberRepresentation) options[0]) {
 		case FLOATING:
 			for (int i = 0; i < size; ++i)
-				result += /**/
+				result += 1/256;/**/
 			break;
 		case FIXED:
 			for (int i = 0; i < size; ++i)				
-				result += /**/
+				result += 1/256;/**/
 			break;
 		default:
 			break;
 		}
 
 	}
-	
+
+	@Override
+	public void warmup(int scale) {
+	}
+
+	@Override
+	public void warmup() {
+
+	}
+
 	@Override
 	public void cancel() {
 		
@@ -51,6 +60,11 @@ public class CPUFixedVsFloatingPoint implements IBenchmark {
 
 	@Override
 	public void clean() {
+	}
+
+	@Override
+	public String getresult() {
+		return null;
 	}
 
 	@Override

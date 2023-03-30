@@ -38,6 +38,10 @@ public interface IBenchmark {
 	 */
 	public void run(Object... options);
 
+    void warmup(int scale);
+
+	void warmup();
+
 	/**
 	 * Stops a benchmark during execution. <br>
 	 * Should be checked in the main for-loop, or main thread of the benchmark.
@@ -49,6 +53,8 @@ public interface IBenchmark {
 	 * This call should not be benchmarked.
 	 */
 	public void clean();
+
+	String getresult();
 
 	/**
 	 * Return the result of the benchmark. <br>
