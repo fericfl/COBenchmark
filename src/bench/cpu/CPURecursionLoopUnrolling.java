@@ -5,11 +5,14 @@ import logging.ConsoleLogger;
 import logging.ILog;
 
 public class CPURecursionLoopUnrolling implements IBenchmark {
-    private Long sum=Long.valueOf(0);
-    private long size;
+    private long sum=0;
+    private long size=0;
     private int counter=0;
-    private long start=0;
+    private long start=2;
 
+    public long getNumber() {
+    	return start;
+    }
     private boolean isPrime(long x) {
         if(x <= 2)
             return true;
@@ -19,23 +22,30 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
         }
         return true;
     }
-    private long recursive(long start, long size, int counter) {
+    private long recursive(long size, int counter) {
         if(start >= size)
             return 0;
         if(isPrime(start)) {
-            return start + recursive(start+1, size, ++counter);
+        	//System.out.println(start);
+        	start++;
+            return recursive(size, ++counter) + start;
         }
-        return 0;
+        start++;
+        return recursive(size, counter);
     }
-    private long recursiveUnrolled(long start, int unrollLevel, long size, int counter) {
+    private long recursiveUnrolled(int unrollLevel, long size, int counter) {
         if(start >= size)
             return 0;
         long sum=0;
         for(long i = start; i <= start+unrollLevel; i++) {
             if(isPrime(i))
+            {
                 sum += i;
+                //System.out.println(i);
+            }
         }
-        return sum + recursiveUnrolled(start+unrollLevel, unrollLevel, size, ++counter);
+        start += unrollLevel;
+        return sum + recursiveUnrolled(unrollLevel, size, ++counter);
     }
     @Override
     public void initialize(Object... params) {
@@ -58,14 +68,14 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
         if(isUnrolled) {
             int unrollLevel = (Integer) options[1];
             try {
-                sum = recursiveUnrolled(start, unrollLevel, size, ++counter);
+                sum = recursiveUnrolled(unrollLevel, size, ++counter);
             } catch (StackOverflowError soe) {
                 throw new StackOverflowError();
             }
         }
         else {
             try {
-                sum = recursive(start, size, ++counter);
+                sum = recursive(size, ++counter);
             } catch (StackOverflowError soe) {
                 throw new StackOverflowError();
             }
@@ -93,6 +103,6 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
     }
     @Override
     public String getResult() {
-        return sum.toString();
+        return Long.toString(sum);
     }
 }

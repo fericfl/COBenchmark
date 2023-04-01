@@ -15,16 +15,17 @@ public class TestCPURecursion {
         ILog log = new ConsoleLogger();
         TimeUnit timeUnit = TimeUnit.Milli;
 
-        long size = 1000000000;
+        long size = 100000;
         bench.initialize(size);
         try {
             timer.start();
             bench.run(false);
             long totalTime = timer.stop();
-            log.write("Total time is: " + timeUnit.toTimeUnit(totalTime, timeUnit) + timeUnit.toString() + "\n" + "Total sum is: " + bench.getResult());
+            long score = Long.divideUnsigned(bench.getResult(), totalTime);
+            log.write("Total time is: " + TimeUnit.toTimeUnit(totalTime, timeUnit) + timeUnit.toString() + "\n" + "Total sum is: " + bench.getResult());
         } catch (StackOverflowError soe) {
             long totalTime = timer.stop();
-            log.write("Run stopped at number:" + "/" + size + " with the total time of " );
+            log.write("Run stopped at number:" + ((CPURecursionLoopUnrolling) bench).getNumber() + "/" + size + "\nTotal time: " + TimeUnit.toTimeUnit(totalTime, timeUnit) + timeUnit );
         }
     }
 }
