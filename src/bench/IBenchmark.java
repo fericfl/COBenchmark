@@ -54,13 +54,11 @@ public interface IBenchmark {
 	 */
 	public void clean();
 
-	String getresult();
-
 	/**
 	 * Return the result of the benchmark. <br>
 	 * This call should not be benchmarked.
 	 * 
 	 * @return
 	 */
-	public String getResult();
+	String getResult();
 }

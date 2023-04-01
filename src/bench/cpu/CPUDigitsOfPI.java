@@ -123,12 +123,6 @@ public class CPUDigitsOfPI implements IBenchmark {
     public void clean() {
 
     }
-
-    @Override
-    public String getresult() {
-        return null;
-    }
-
     @Override
     public String getResult() {
         return null;
