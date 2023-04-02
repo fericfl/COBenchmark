@@ -5,10 +5,10 @@ import logging.ConsoleLogger;
 import logging.ILog;
 
 public class CPURecursionLoopUnrolling implements IBenchmark {
-    private long sum=0;
+    private long sum;
     private long size=0;
-    private int counter=0;
-    private long start=2;
+    private int counter;
+    private long start;
 
     public long getNumber() {
     	return start;
@@ -54,7 +54,6 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
 
     @Override
     public void warmUp() {
-
     }
 
     @Override
@@ -64,6 +63,9 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
 
     @Override
     public void run(Object... options) {
+        start=2;
+        counter=0;
+        sum=0;
         boolean isUnrolled = (Boolean) options[0];
         if(isUnrolled) {
             int unrollLevel = (Integer) options[1];
@@ -84,12 +86,12 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
 
     @Override
     public void warmup(int scale) {
-
     }
 
     @Override
     public void warmup() {
-
+        run(false);
+        run(true,8);
     }
 
     @Override
