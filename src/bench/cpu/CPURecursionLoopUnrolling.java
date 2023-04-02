@@ -27,6 +27,7 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
             return 0;
         if(isPrime(start)) {
         	//System.out.println(start);
+            sum += start;
         	start++;
             return recursive(size, ++counter) + start;
         }
@@ -36,14 +37,16 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
     private long recursiveUnrolled(int unrollLevel, long size, int counter) {
         if(start >= size)
             return 0;
-        long sum=0;
-        for(long i = start; i <= start+unrollLevel; i++) {
+        for(long i = start; i < start+unrollLevel; i++) {
+            if(i >= size)
+                return 0;
             if(isPrime(i))
             {
                 sum += i;
                 //System.out.println(i);
             }
         }
+
         start += unrollLevel;
         return sum + recursiveUnrolled(unrollLevel, size, ++counter);
     }
@@ -70,14 +73,14 @@ public class CPURecursionLoopUnrolling implements IBenchmark {
         if(isUnrolled) {
             int unrollLevel = (Integer) options[1];
             try {
-                sum = recursiveUnrolled(unrollLevel, size, ++counter);
+                recursiveUnrolled(unrollLevel, size, ++counter);
             } catch (StackOverflowError soe) {
                 throw new StackOverflowError();
             }
         }
         else {
             try {
-                sum = recursive(size, ++counter);
+                recursive(size, ++counter);
             } catch (StackOverflowError soe) {
                 throw new StackOverflowError();
             }

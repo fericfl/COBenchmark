@@ -20,7 +20,7 @@ public class TestCPURecursion {
         bench.initialize(Long.parseLong("4000"));
         bench.warmup();
 
-        long size = 500000;
+        long size = 6500;
         bench.initialize(size);
         try {
             timer.start();
@@ -49,7 +49,7 @@ public class TestCPURecursion {
             //log.write("Run stopped at number:" + bench.getNumber() + "/" + size + "\nTotal time: " + TimeUnit.toTimeUnit(totalTime, timeUnit) + timeUnit + "\nTotal score is: " + score2);
         }
 
-        long size3=1000;
+        long size3=2000;
         double score3=0;
         bench.initialize(size3);
         try {
